@@ -1,0 +1,32 @@
+openapi: 3.0.0
+info:
+  title: User Onboarding Service
+  description: A service to orchestrate the onboarding of new users.
+  version: 1.0.0
+
+paths:
+  /onboard:
+    post:
+      summary: Start the user onboarding workflow
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  description: The ID of the user to onboard.
+                email:
+                  type: string
+                  format: email
+                  description: The email address of the user.
+              required:
+                - userId
+                - email
+      responses:
+        '202':
+          description: Accepted. The onboarding workflow has been successfully started.
+        '400':
+          description: Bad request. The request body is invalid.

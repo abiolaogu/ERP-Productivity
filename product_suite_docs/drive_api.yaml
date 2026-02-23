@@ -1,0 +1,46 @@
+openapi: 3.0.0
+info:
+  title: Drive Service
+  description: A service for managing files and folders.
+  version: 1.0.0
+
+paths:
+  /users/{userId}/folders:
+    post:
+      summary: Create a folder for a user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The name of the folder to create.
+                parentFolderId:
+                  type: string
+                  description: The ID of the parent folder. If not provided, the folder is created in the user's root.
+              required:
+                - name
+      responses:
+        '201':
+          description: Created. The folder has been successfully created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  folderId:
+                    type: string
+        '400':
+          description: Bad request. The request body is invalid.
+        '404':
+          description: Not found. The user or parent folder was not found.
